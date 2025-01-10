@@ -26,8 +26,11 @@ export default function App() {
       {/* Hero Section */}
       <ImageBackground
         source={require('assets/2-physics.jpg')}
-        style={styles.hero}
-        imageStyle={{ opacity: 0.8 }} // Adjust opacity for better text visibility
+        style={{
+          width: '100%', 
+          height: 800,  
+        }}
+        imageStyle={{ opacity: 0.8 }} 
       >
         <View style={styles.textContainer}>
           <Text style={styles.heroText}>
@@ -77,10 +80,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 15,
-    backgroundColor: '#f5f5f5',
+    padding: 10,
+    backgroundColor: '#68E6B1',
+    borderTopWidth: 45,
+    borderTopColor: '#68E6B1',
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    borderBottomColor: '#7FEEBF',
   },
   logoContainer: {
     flexDirection: 'row',
@@ -96,19 +101,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   menuButton: {
-    padding: 10,
-    backgroundColor: '#2196F3',
-    borderRadius: 5,
+    backgroundColor: '#68E6B1',
+    paddingVertical: 9,
+    paddingHorizontal: 9,
+    borderRadius: 9,
+    marginTop: 9,
   },
   menuText: {
-    color: '#fff',
+    color: '#000000',
+    fontSize: 16,
     fontWeight: 'bold',
-  },
-  hero: {
-    width: '100%',
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: 'center',
   },
   textContainer: {
     marginBottom: 20,
@@ -150,15 +153,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   ctaButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#A3FDE2',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
     marginTop: 20,
   },
   ctaText: {
-    color: '#fff',
+    color: '#000000',
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
