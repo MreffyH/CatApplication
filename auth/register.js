@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
 
-export default function Login() {
+export default function Register() {
     return (
         <ScrollView contentContainerStyle={StyleSheet.container}>
             {/* Navbar */}
@@ -24,9 +24,14 @@ export default function Login() {
                 }}
                 imageStyle={{ opacity: 0.8 }}
             >
-                {/* Login Card */}
-                <View style={styles.loginCard}>
-                    <Text style={styles.loginTitle}>Login</Text>
+                {/* Register Card */}
+                <View style={styles.registerCard}>
+                    <Text style={styles.loginTitle}>Register</Text>
+                    {/* Email Input */}
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.inputLabel}>Username</Text>
+                        <Text style={styles.input}>Type your username</Text>
+                    </View>
                     {/* Email Input */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputLabel}>Email</Text>
@@ -40,13 +45,13 @@ export default function Login() {
                             <Text style={styles.forgotPassword}>Forgot Password?</Text>
                         </TouchableOpacity>
                     </View>
-                    {/* Login Button */}
-                    <TouchableOpacity style={styles.loginButton}>
-                        <Text style={styles.loginButtonText}>LOGIN</Text>
+                    {/* Register Button */}
+                    <TouchableOpacity style={styles.registerButton}>
+                        <Text style={styles.loginButtonText}>REGISTER</Text>
                     </TouchableOpacity>
-                    {/* Register Link */}
-                    <Text style={styles.registerText}>
-                        Belum punya akun? <Text style={styles.registerLink}>Register</Text>
+                    {/* Login Link */}
+                    <Text style={styles.loginText}>
+                        Sudah punya akun? <Text style={styles.loginLink}>Login</Text>
                     </Text>
                 </View>
             </ImageBackground>
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    loginCard: {
+    registerCard: {
         backgroundColor: '#fff',
         borderRadius: 10,
         padding: 20,
@@ -136,7 +141,7 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         marginTop: 5,
     },
-    loginButton: {
+    registerButton: {
         backgroundColor: '#68E6B1',
         padding: 15,
         borderRadius: 5,
@@ -148,13 +153,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    registerText: {
+    loginText: {
         marginTop: 20,
         textAlign: 'center',
         fontSize: 14,
         color: '#555',
     },
-    registerLink: {
+    loginLink: {
         color: '#68E6B1',
         fontWeight: 'bold',
     },
