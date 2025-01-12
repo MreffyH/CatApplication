@@ -1,27 +1,52 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
+import { RootStackParamList } from './App'; 
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    ScrollView,
+    TextInput,
+    TouchableOpacity,
+    ImageBackground,
+    Alert,
+} from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-export default function Login() {
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LoginPage'>;
+
+type Props = {
+    navigation: LoginScreenNavigationProp;
+};
+
+const LoginPage: React.FC<Props> = ({ navigation }) => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
+    const handleLogin = () => {
+        if (!email || !password) {
+            Alert.alert('Error', 'Email dan Password harus diisi!');
+            return;
+        }
+        // Tambahkan logika autentikasi di sini
+        Alert.alert('Sukses', 'Login berhasil');
+        navigation.navigate('Home'); // Navigasi ke halaman Home
+    };
+
     return (
-        <ScrollView contentContainerStyle={StyleSheet.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             {/* Navbar */}
             <View style={styles.navbar}>
                 <View style={styles.logoContainer}>
-                    <Image source={require('../assets/1-logo.png')} style={styles.logo} />
+                    <Image source={require('./assets/1-logo.png')} style={styles.logo} />
                     <Text style={styles.logoText}>"Make Physics More Fun"</Text>
                 </View>
-                <TouchableOpacity style={styles.menuButton}>
-                    <Text style={styles.menuText}>Beranda</Text>
-                </TouchableOpacity>
             </View>
 
             {/* Hero Section */}
             <ImageBackground
-                source={require('../assets/2-physics.jpg')}
-                style={{
-                    width: '100%',
-                    height: 800,
-                }}
+                source={require('./assets/2-physics.jpg')}
+                style={{ width: '100%', height: 800 }}
                 imageStyle={{ opacity: 0.8 }}
             >
                 {/* Login Card */}
@@ -30,29 +55,45 @@ export default function Login() {
                     {/* Email Input */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputLabel}>Email</Text>
-                        <Text style={styles.input}>Type your email</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Type your email"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                        />
                     </View>
                     {/* Password Input */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputLabel}>Password</Text>
-                        <Text style={styles.input}>Type your password</Text>
-                        <TouchableOpacity>
-                            <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Type your password"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                        />
                     </View>
                     {/* Login Button */}
-                    <TouchableOpacity style={styles.loginButton}>
+                    <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
                         <Text style={styles.loginButtonText}>LOGIN</Text>
                     </TouchableOpacity>
                     {/* Register Link */}
                     <Text style={styles.registerText}>
-                        Belum punya akun? <Text style={styles.registerLink}>Register</Text>
+                        Belum punya akun?{' '}
+                        <Text
+                            style={styles.registerLink}
+                            onPress={() => navigation.navigate('RegisterPage')}
+                        >
+                            Register
+                        </Text>
                     </Text>
                 </View>
             </ImageBackground>
         </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -82,19 +123,6 @@ const styles = StyleSheet.create({
     logoText: {
         fontSize: 16,
         fontWeight: 'bold',
-    },
-    menuButton: {
-        backgroundColor: '#68E6B1',
-        paddingVertical: 9,
-        paddingHorizontal: 9,
-        borderRadius: 9,
-        marginTop: 9,
-    },
-    menuText: {
-        color: '#000000',
-        fontSize: 16,
-        fontWeight: 'bold',
-        textAlign: 'center',
     },
     loginCard: {
         backgroundColor: '#fff',
@@ -130,12 +158,6 @@ const styles = StyleSheet.create({
         color: '#555',
         backgroundColor: '#f9f9f9',
     },
-    forgotPassword: {
-        fontSize: 12,
-        color: '#68E6B1',
-        textAlign: 'right',
-        marginTop: 5,
-    },
     loginButton: {
         backgroundColor: '#68E6B1',
         padding: 15,
@@ -159,3 +181,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+export default LoginPage;

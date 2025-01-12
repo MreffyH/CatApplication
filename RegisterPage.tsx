@@ -1,63 +1,99 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
+import { RootStackParamList } from './App'; 
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    ScrollView,
+    TextInput,
+    TouchableOpacity,
+    ImageBackground,
+    Alert,
+} from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-export default function Register() {
+type RegisterPageNavigationProp = StackNavigationProp<RootStackParamList, 'RegisterPage'>;
+
+type Props = {
+    navigation: RegisterPageNavigationProp;
+};
+
+const RegisterPage: React.FC<Props> = ({ navigation }) => {
+    const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
     return (
-        <ScrollView contentContainerStyle={StyleSheet.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             {/* Navbar */}
             <View style={styles.navbar}>
                 <View style={styles.logoContainer}>
-                    <Image source={require('../assets/1-logo.png')} style={styles.logo} />
+                    <Image source={require('./assets/1-logo.png')} style={styles.logo} />
                     <Text style={styles.logoText}>"Make Physics More Fun"</Text>
                 </View>
-                <TouchableOpacity style={styles.menuButton}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Home')}
+                >
                     <Text style={styles.menuText}>Beranda</Text>
                 </TouchableOpacity>
             </View>
 
             {/* Hero Section */}
             <ImageBackground
-                source={require('../assets/2-physics.jpg')}
-                style={{
-                    width: '100%',
-                    height: 800,
-                }}
+                source={require('./assets/2-physics.jpg')}
+                style={{ width: '100%', height: 800 }}
                 imageStyle={{ opacity: 0.8 }}
             >
-                {/* Register Card */}
                 <View style={styles.registerCard}>
                     <Text style={styles.loginTitle}>Register</Text>
-                    {/* Email Input */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputLabel}>Username</Text>
-                        <Text style={styles.input}>Type your username</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Type your username"
+                            value={username}
+                            onChangeText={setUsername}
+                        />
                     </View>
-                    {/* Email Input */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputLabel}>Email</Text>
-                        <Text style={styles.input}>Type your email</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Type your email"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                        />
                     </View>
-                    {/* Password Input */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputLabel}>Password</Text>
-                        <Text style={styles.input}>Type your password</Text>
-                        <TouchableOpacity>
-                            <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Type your password"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                        />
                     </View>
-                    {/* Register Button */}
                     <TouchableOpacity style={styles.registerButton}>
-                        <Text style={styles.loginButtonText}>REGISTER</Text>
+                        <Text style={styles.registerButtonText}>REGISTER</Text>
                     </TouchableOpacity>
-                    {/* Login Link */}
                     <Text style={styles.loginText}>
-                        Sudah punya akun? <Text style={styles.loginLink}>Login</Text>
+                        Sudah punya akun?{' '}
+                        <Text
+                            style={styles.loginLink}
+                            onPress={() => navigation.navigate('LoginPage')}
+                        >
+                            Login
+                        </Text>
                     </Text>
                 </View>
             </ImageBackground>
         </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -82,24 +118,17 @@ const styles = StyleSheet.create({
     logo: {
         width: 40,
         height: 40,
-        marginRight: 10,
+        marginRight: 8,
     },
     logoText: {
         fontSize: 16,
+        color: '#fff',
         fontWeight: 'bold',
     },
-    menuButton: {
-        backgroundColor: '#68E6B1',
-        paddingVertical: 9,
-        paddingHorizontal: 9,
-        borderRadius: 9,
-        marginTop: 9,
-    },
+
     menuText: {
-        color: '#000000',
-        fontSize: 16,
+        color: '#000',
         fontWeight: 'bold',
-        textAlign: 'center',
     },
     registerCard: {
         backgroundColor: '#fff',
@@ -135,12 +164,6 @@ const styles = StyleSheet.create({
         color: '#555',
         backgroundColor: '#f9f9f9',
     },
-    forgotPassword: {
-        fontSize: 12,
-        color: '#68E6B1',
-        textAlign: 'right',
-        marginTop: 5,
-    },
     registerButton: {
         backgroundColor: '#68E6B1',
         padding: 15,
@@ -148,7 +171,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
     },
-    loginButtonText: {
+    registerButtonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
@@ -164,3 +187,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+export default RegisterPage;
