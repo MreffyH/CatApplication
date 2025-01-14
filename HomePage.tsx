@@ -17,20 +17,19 @@ type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { user, logout, email, password } = useAuth(); // Gunakan user dan logout dari context
+  const { user } = useAuth(); // Gunakan user dan logout dari context
   const [selectedPage, setSelectedPage] = useState<string | null>(null);
   const [profileText, setProfileText] = useState(user ? 'Profile' : 'Login');
 
   // Tampilkan konsole user yang sedang login
-  // Tampilkan konsole user yang sedang login
-  console.log('User:', user);
-  console.log('email: ', email);
-  console.log('password: ', password);
-  
   useEffect(() => {
     // Perbarui status Profile text setiap kali user berubah
     setProfileText(user ? 'Profile' : 'Login');
   }, [user]); // Dependensi pada perubahan user
+
+  useEffect(() => {
+    // Pastikan jika user login, tampilkan Profile
+  }, [user]); // Effect akan dijalankan setiap kali 'user' berubah
 
   const handleNavigate = () => {
     if (selectedPage === 'GLB') {
@@ -84,7 +83,7 @@ export default function HomeScreen() {
         <View style={styles.cards}>
           {/* GLB Card */}
           <TouchableOpacity
-            style={[
+            style={[ 
               styles.card,
               selectedPage === 'GLB' ? styles.cardSelected : null,
             ]}

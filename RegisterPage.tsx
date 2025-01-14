@@ -27,13 +27,13 @@ const RegisterPage: React.FC<Props> = ({ navigation }) => {
 
     const handleRegister = async () => {
         console.log('Register button pressed');
-        let response = await register(email, password); // Pass only email and password
+        let response = await register(email, password, username); // Pass only email and password
         console.log('got result: ', response);
         if (!response.success) {
             alert(response.error); // Updated error handling
         } else {
             alert('Registration successful!');
-            navigation.navigate('LoginPage');
+            navigation.navigate('Home');
         }   
     };
 

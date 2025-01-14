@@ -1,7 +1,7 @@
 import { createContext, useEffect, useContext, useState } from "react";
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, get } from "firebase/auth";
 import { auth, db } from "../firebase/config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { ref, set } from "firebase/database";
 
 export const AuthContext = createContext();
 
@@ -14,7 +14,8 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         // onAuthStateChanged is a listener that listens to the user's authentication state
         const unsub = onAuthStateChanged(auth, (user)=>{
-            console.log("User:", user);
+            // Tampilkan konsole user yang sedang login
+            console.log('User:', user);
             if(user){
                 setUser(user);
                 setIsAuthenticated(true);
@@ -54,28 +55,49 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const register = async (email, password, username)=>{
+    const register = async (email, password, username) => {
         try {
+            // Validasi parameter username
+            if (!username || username.trim() === "") {
+                throw new Error("Username is required and cannot be empty.");
+            }
+    
+            // Buat user dengan email dan password
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            if (response?.user && username) {
-                await setDoc(doc(db, "users", response.user.uid), {
-                    username,
+    
+            if (response?.user) {
+                console.log("Creating user in Realtime Database...");
+    
+                // Simpan user ke Realtime Database
+                await set(ref(db, `users/${response.user.uid}`), {
+                    username: username.trim(), // Pastikan username tidak kosong atau mengandung spasi
                     email,
                     userId: response.user.uid,
                 });
+    
+                console.log("User registered and added to database:", response.user);
+                return { success: true, user: response.user };
+            } else {
+                throw new Error("User creation failed.");
             }
-            return { success: true, user: response?.user };
         } catch (error) {
-            console.error("Register Error:", error);
-            return { success: false, error: error.message };
+            console.error("Register Error:", error.message || error);
+            return { success: false, error: error.message || "An unknown error occurred" };
         }
-    }
+    };
+    
 
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, login, logout, register }}>
             {children}
         </AuthContext.Provider>
-    )
+    );
+
+    return (
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, register }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 export const useAuth = () => {

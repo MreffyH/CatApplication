@@ -22,7 +22,7 @@ const LogoutPage: React.FC<Props> = ({ navigation }) => {
 
     const handleLogout = async () => {
         await logout();
-        navigation.navigate('LoginPage'); // Navigate to login page after logout
+        navigation.navigate('Home'); // Navigate to login page after logout
     };
 
     return (
