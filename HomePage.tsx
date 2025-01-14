@@ -24,12 +24,9 @@ export default function HomeScreen() {
   // Tampilkan konsole user yang sedang login
   useEffect(() => {
     // Perbarui status Profile text setiap kali user berubah
+    console.log("User updated in HomeScreen:", user);
     setProfileText(user ? 'Profile' : 'Login');
   }, [user]); // Dependensi pada perubahan user
-
-  useEffect(() => {
-    // Pastikan jika user login, tampilkan Profile
-  }, [user]); // Effect akan dijalankan setiap kali 'user' berubah
 
   const handleNavigate = () => {
     if (selectedPage === 'GLB') {

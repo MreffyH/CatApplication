@@ -12,36 +12,37 @@ export const AuthContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        // onAuthStateChanged is a listener that listens to the user's authentication state
-        const unsub = onAuthStateChanged(auth, (user)=>{
-            // Tampilkan konsole user yang sedang login
-            console.log('User:', user);
-            if(user){
-                setUser(user);
-                setIsAuthenticated(true);
-            } else{
-                setUser(null);
-                setIsAuthenticated(false);
+        const unsub = onAuthStateChanged(auth, (currentUser) => {
+            console.log('User updated in onAuthStateChanged:', currentUser);
+            if (currentUser) {
+                setUser(currentUser); // Memperbarui state 'user' jika ada user yang terautentikasi
+                setIsAuthenticated(true); // Menandai pengguna terautentikasi
+            } else {
+                setUser(null); // Mengosongkan state 'user' jika tidak ada user
+                setIsAuthenticated(false); // Menandai pengguna tidak terautentikasi
             }
         });
-        return unsub
-    },[])
+    
+        return unsub; // Menghapus listener ketika komponen unmount
+    }, []);
+    
 
-    const login = async (email, password)=>{
+    const login = async (email, password) => {
         try {
-            // signInWithEmailAndPassword is a method that signs in a user with email and password
             const response = await signInWithEmailAndPassword(auth, email, password);
+            console.log('Login response:', response); // Log respons dari Firebase
             if (response?.user) {
-                setUser(response.user);
-                setIsAuthenticated(true);
-                console.log("User logged in:", response.user);
+                setUser(response.user); // Memperbarui state 'user'
+                setIsAuthenticated(true); // Menandai pengguna terautentikasi
+                console.log('User logged in successfully:', response.user);
                 return { success: true, user: response.user };
             }
         } catch (error) {
-            console.error("Login Error:", error.message);
+            console.error('Login Error:', error.message);
             return { success: false, error: error.message };
         }
-    }
+    };
+
 
     const logout = async ()=>{
         try {
@@ -86,12 +87,6 @@ export const AuthContextProvider = ({ children }) => {
         }
     };
     
-
-    return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, register }}>
-            {children}
-        </AuthContext.Provider>
-    );
 
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, login, logout, register }}>
