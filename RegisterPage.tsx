@@ -9,9 +9,9 @@ import {
     TextInput,
     TouchableOpacity,
     ImageBackground,
-    Alert,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useAuth } from './context/authContext';
 
 type RegisterPageNavigationProp = StackNavigationProp<RootStackParamList, 'RegisterPage'>;
 
@@ -23,6 +23,15 @@ const RegisterPage: React.FC<Props> = ({ navigation }) => {
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const {register} = useAuth();
+
+    const handleRegister = async () => {
+        let response = await register(username, email, password);
+        console.log('got result: ', response);
+        if(!response.success){
+            alert(response.message);
+        } 
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
