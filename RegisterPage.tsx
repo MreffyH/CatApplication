@@ -26,6 +26,7 @@ const RegisterPage: React.FC<Props> = ({ navigation }) => {
     const {register} = useAuth();
 
     const handleRegister = async () => {
+        console.log('Register button pressed');
         let response = await register(username, email, password);
         console.log('got result: ', response);
         if(!response.success){
@@ -86,7 +87,7 @@ const RegisterPage: React.FC<Props> = ({ navigation }) => {
                             secureTextEntry
                         />
                     </View>
-                    <TouchableOpacity style={styles.registerButton}>
+                    <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
                         <Text style={styles.registerButtonText}>REGISTER</Text>
                     </TouchableOpacity>
                     <Text style={styles.loginText}>
