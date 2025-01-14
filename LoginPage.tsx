@@ -41,6 +41,11 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
                     <Image source={require('./assets/1-logo.png')} style={styles.logo} />
                     <Text style={styles.logoText}>"Make Physics More Fun"</Text>
                 </View>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Home')}
+                >
+                    <Text style={styles.menuText}>Beranda</Text>
+                </TouchableOpacity>
             </View>
 
             {/* Hero Section */}
