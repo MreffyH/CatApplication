@@ -129,6 +129,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    menuText: {
+        color: '#000',
+        fontWeight: 'bold',
+    },
     loginCard: {
         backgroundColor: '#fff',
         borderRadius: 10,
