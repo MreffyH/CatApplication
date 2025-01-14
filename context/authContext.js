@@ -14,6 +14,7 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         // onAuthStateChanged is a listener that listens to the user's authentication state
         const unsub = onAuthStateChanged(auth, (user)=>{
+            console.log("User:", user);
             if(user){
                 setUser(user);
                 setIsAuthenticated(true);

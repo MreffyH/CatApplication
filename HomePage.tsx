@@ -1,5 +1,5 @@
 import { RootStackParamList } from './App'; 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,8 +17,20 @@ type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { user, logout } = useAuth(); // Gunakan user dan logout dari context
+  const { user, logout, email, password } = useAuth(); // Gunakan user dan logout dari context
   const [selectedPage, setSelectedPage] = useState<string | null>(null);
+  const [profileText, setProfileText] = useState(user ? 'Profile' : 'Login');
+
+  // Tampilkan konsole user yang sedang login
+  // Tampilkan konsole user yang sedang login
+  console.log('User:', user);
+  console.log('email: ', email);
+  console.log('password: ', password);
+  
+  useEffect(() => {
+    // Perbarui status Profile text setiap kali user berubah
+    setProfileText(user ? 'Profile' : 'Login');
+  }, [user]); // Dependensi pada perubahan user
 
   const handleNavigate = () => {
     if (selectedPage === 'GLB') {
@@ -48,9 +60,7 @@ export default function HomeScreen() {
           style={styles.menuButton}
           onPress={handleProfilePress} // Fungsi berubah sesuai status login
         >
-          <Text style={styles.menuText}>
-            {user ? 'Profile' : 'Login'} {/* Ubah label sesuai status login */}
-          </Text>
+          <Text style={styles.menuText}>{profileText}</Text> {/* Ubah label sesuai status login */}
         </TouchableOpacity>
       </View>
 
@@ -98,18 +108,21 @@ export default function HomeScreen() {
         </View>
 
         {/* Button */}
-        <TouchableOpacity
-          style={[
-            styles.ctaButton,
-            selectedPage ? styles.ctaButtonActive : styles.ctaButtonDisabled,
-          ]}
-          disabled={!selectedPage}
-          onPress={handleNavigate}
-        >
-          <Text style={styles.ctaText}>Yuk, Eksplor Bareng!</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            style={[
+              styles.ctaButton,
+              selectedPage ? styles.ctaButtonActive : styles.ctaButtonDisabled,
+            ]}
+            disabled={!selectedPage}
+            onPress={handleNavigate}
+          >
+            <Text style={styles.ctaText}>Yuk, Eksplor Bareng!</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </ScrollView>
+    
   );
 }
 
