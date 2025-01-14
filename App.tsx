@@ -7,6 +7,7 @@ import GLBBPage from './GLBBPage';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import { AuthContextProvider } from './context/authContext'; // Import the AuthContextProvider
+import LogoutPage from './LogoutPage';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -14,6 +15,7 @@ export type RootStackParamList = {
   GLBBPage: undefined;
   LoginPage: undefined;
   RegisterPage: undefined;
+  LogoutPage: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -28,6 +30,7 @@ const App: React.FC = () => {
           <Stack.Screen name="GLBBPage" component={GLBBPage} />
           <Stack.Screen name="LoginPage" component={LoginPage} />
           <Stack.Screen name="RegisterPage" component={RegisterPage} />
+          <Stack.Screen name="LogoutPage" component={LogoutPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContextProvider>

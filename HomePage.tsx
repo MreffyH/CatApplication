@@ -11,11 +11,13 @@ import {
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from './context/authContext'; // Import context
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { user, logout } = useAuth(); // Gunakan user dan logout dari context
   const [selectedPage, setSelectedPage] = useState<string | null>(null);
 
   const handleNavigate = () => {
@@ -23,6 +25,14 @@ export default function HomeScreen() {
       navigation.navigate('GLBPage');
     } else if (selectedPage === 'GLBB') {
       navigation.navigate('GLBBPage');
+    }
+  };
+
+  const handleProfilePress = () => {
+    if (user) {
+      navigation.navigate('LogoutPage'); // Navigasi ke halaman Logout
+    } else {
+      navigation.navigate('LoginPage'); // Navigasi ke halaman Login
     }
   };
 
@@ -34,9 +44,13 @@ export default function HomeScreen() {
           <Image source={require('./assets/1-logo.png')} style={styles.logo} />
           <Text style={styles.logoText}>"Make Physics More Fun"</Text>
         </View>
-        <TouchableOpacity style={styles.menuButton}
-        onPress={() => navigation.navigate('LoginPage')}>
-          <Text style={styles.menuText}>Login</Text>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={handleProfilePress} // Fungsi berubah sesuai status login
+        >
+          <Text style={styles.menuText}>
+            {user ? 'Profile' : 'Login'} {/* Ubah label sesuai status login */}
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -143,7 +157,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginBottom: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent background for text
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     padding: 10,
     borderRadius: 10,
   },
@@ -170,7 +184,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardSelected: {
-    backgroundColor: '#d3d3d3', // Warna abu-abu untuk efek selected
+    backgroundColor: '#d3d3d3',
   },
   cardImage: {
     width: 100,

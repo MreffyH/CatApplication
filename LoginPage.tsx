@@ -12,6 +12,7 @@ import {
     Alert,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useAuth } from './context/authContext';
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LoginPage'>;
 
