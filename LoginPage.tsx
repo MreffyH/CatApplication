@@ -23,8 +23,12 @@ type Props = {
 const LoginPage: React.FC<Props> = ({ navigation }) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const { login } = useAuth();
 
     const handleLogin = () => {
+        console.log('Login button pressed');
+        let response = login(email, password); // Pass only email and password
+        console.log('got result: ', response);
         if (!email || !password) {
             Alert.alert('Error', 'Email dan Password harus diisi!');
             return;
