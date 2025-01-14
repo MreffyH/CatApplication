@@ -1,13 +1,14 @@
-import { createContext, useEffect } from "react";
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-import { auth, db } from "../firebase/config.js";
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { createContext, useEffect, useContext, useState } from "react";
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebase/config";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(undefined);
+    
 
 
     useEffect(() => {
@@ -41,21 +42,20 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const register = async (email, password)=>{
+    const register = async (email, password, username)=>{
         try {
-            // createUserWithEmailAndPassword is a method that creates a user with email and password
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log('response.user', response?.user);
-
-            await setDoc(doc(db, "users", response?.user?.uid),{
-                username,
-                profileUrl,
-                userId: response?.user?.uid
-            });
-            return {success: true, user: response?.user};
+            if (response?.user && username) {
+                await setDoc(doc(db, "users", response.user.uid), {
+                    username,
+                    email,
+                    userId: response.user.uid,
+                });
+            }
+            return { success: true, user: response?.user };
         } catch (error) {
-            console.log(error);
-            return {success: false, error: error.message};
+            console.error("Register Error:", error);
+            return { success: false, error: error.message };
         }
     }
 

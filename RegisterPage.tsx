@@ -21,17 +21,20 @@ type Props = {
 
 const RegisterPage: React.FC<Props> = ({ navigation }) => {
     const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
+    const [email, setEmail] =   useState<string>('');
     const [password, setPassword] = useState<string>('');
     const {register} = useAuth();
 
     const handleRegister = async () => {
         console.log('Register button pressed');
-        let response = await register(username, email, password);
+        let response = await register(email, password); // Pass only email and password
         console.log('got result: ', response);
-        if(!response.success){
-            alert(response.message);
-        } 
+        if (!response.success) {
+            alert(response.error); // Updated error handling
+        } else {
+            alert('Registration successful!');
+            navigation.navigate('LoginPage');
+        }   
     };
 
     return (
