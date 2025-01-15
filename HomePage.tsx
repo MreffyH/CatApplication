@@ -33,17 +33,19 @@ export default function HomeScreen() {
       navigation.navigate('GLBPage');
     } else if (selectedPage === 'GLBB') {
       navigation.navigate('GLBBPage');
-    } else if (selectedPage === 'Quiz') {
+    } else if (selectedPage === 'Quiz' && user != null) {
       navigation.navigate('QuizScreen');
+    } else if (selectedPage === 'Quiz' && user == null) {
+      alert('Silakan login terlebih dahulu untuk mengakses Quiz');
     }
   };
 
   const handleProfilePress = () => {
     if (user) {
-      navigation.navigate('LogoutPage'); // Navigasi ke halaman Logout
+      navigation.navigate('LogoutPage'); 
     } else {
-      navigation.navigate('LoginPage'); // Navigasi ke halaman Login
-    }
+      navigation.navigate('LoginPage'); 
+    } 
   };
 
   return (

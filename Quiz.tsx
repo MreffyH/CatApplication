@@ -1,5 +1,5 @@
 import { RootStackParamList } from './App';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -8,10 +8,9 @@ import {
     View,
     TouchableOpacity,
     FlatList,
-    Alert,
     ScrollView,
-    Image
-  } from 'react-native';
+    Image,
+} from 'react-native';
 import { db } from './firebase/config';
 import { ref, set } from 'firebase/database';
 import { useAuth } from './context/authContext';
@@ -23,7 +22,7 @@ const quizData = [
     { question: '4. (GLBB) Sebuah mobil bergerak dengan kecepatan awal 10 m/s dan mengalami percepatan 2 m/s². Berapa kecepatan mobil setelah 5 detik?', options: ['35m/s', '30m/s', '25m/s', '20m/s', '15m/s'], correct: '20m/s' },
     { question: '5. (GLBB) Bola dilempar vertikal ke atas dengan kecepatan awal 20 m/s. Berapa ketinggian maksimum yang dicapai bola? (g = 10 m/s²)', options: ['20m', '18m', '16m', '15m', '14m'], correct: '20m' },
     { question: '6. (GLBB) Sebuah benda jatuh bebas dari ketinggian 80 m. Berapa waktu yang dibutuhkan untuk mencapai tanah? (g = 10 m/s²)', options: ['10s', '8s', '6s', '4s', '2s'], correct: '4s' },
-  ];
+];
 
 type QuizScreenNavigationProp = StackNavigationProp<RootStackParamList, 'QuizScreen'>;
 
@@ -34,71 +33,71 @@ export default function QuizScreen() {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [score, setScore] = useState(0);
     const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+    const [showScore, setShowScore] = useState(false);
 
     const handleOptionSelect = (option: string) => {
         setSelectedOption(option);
-      };
-    
+        if (option === quizData[currentQuestion].correct) {
+            setScore(prevScore => prevScore + 1);
+        }
+        setAnswers(prevAnswers => ({
+            ...prevAnswers,
+            [currentQuestion]: option,
+        }));
+    };
+
     const handleNext = () => {
-    if (!selectedOption) {
-        Alert.alert('Pilih jawaban terlebih dahulu!');
-        return;
-    }
-
-    // Periksa jawaban dan perbarui skor
-    if (selectedOption === quizData[currentQuestion].correct) {
-        setScore(prevScore => prevScore + 1);
-    }
-
-    setAnswers(prevAnswers => ({
-        ...prevAnswers,
-        [currentQuestion]: selectedOption,
-    }));
-
-    // Reset pilihan dan lanjut ke soal berikutnya
-    setSelectedOption(null);
-    if (currentQuestion < quizData.length - 1) {
-        setCurrentQuestion(prevQuestion => prevQuestion + 1);
-    } else {
-        saveResults();
-        Alert.alert('Quiz Selesai', `Skor Anda: ${score + (selectedOption === quizData[currentQuestion].correct ? 1 : 0)} dari ${quizData.length}`);
-    }
+        if (currentQuestion < quizData.length - 1) {
+            setSelectedOption(null);
+            setCurrentQuestion(prevQuestion => prevQuestion + 1);
+        } else {
+            saveResults();
+            setShowScore(true);
+        }
     };
-    
+
     const saveResults = () => {
-    if (!user) {
-        Alert.alert('Error', 'Anda harus login untuk menyimpan hasil.');
-        return;
-    }
+        if (!user) return;
 
-    const resultsRef = ref(db, `results/${user.uid}`);
-
-    set(resultsRef, {
-        answers,
-        score,
-        timestamp: new Date().toISOString(),
-    })
-        .then(() => {
-        console.log('Hasil berhasil disimpan.');
-        })
-        .catch(error => {
-        console.error('Gagal menyimpan hasil:', error);
-        });
+        const resultsRef = ref(db, `results/${user.uid}`);
+        set(resultsRef, {
+            answers,
+            score,
+            timestamp: new Date().toISOString(),
+        }).catch(error => console.error('Gagal menyimpan hasil:', error));
     };
+
+    if (showScore) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <View style={styles.headerLeft}>
+                        <Image source={require('./assets/1-logo.png')} style={styles.logo} />
+                        <Text style={styles.title}>"Make Physics More Fun"</Text>
+                    </View>
+                </View>
+                <View style={styles.marginWrapper}>
+                    <Text style={styles.scoreText}>Quiz Selesai!</Text>
+                    <Text style={styles.scoreText}>Skor Anda: {score} dari {quizData.length}</Text>
+                    <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('Home')}>
+                        <Text style={styles.nextButtonText}>Kembali ke Beranda</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
 
     return (
         <ScrollView>
-            {/* Header */}
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
-                <Image source={require('./assets/1-logo.png')} style={styles.logo} />
-                <Text style={styles.title}>"Make Physics More Fun"</Text>
+                    <Image source={require('./assets/1-logo.png')} style={styles.logo} />
+                    <Text style={styles.title}>"Make Physics More Fun"</Text>
                 </View>
                 <View style={styles.headerRight}>
-                <TouchableOpacity style={styles.headerButton}
-                onPress={() => navigation.navigate('Home')}>
-                    <Text style={styles.headerButtonText}>Beranda</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.headerButton} onPress={() => navigation.navigate('Home')}>
+                        <Text style={styles.headerButtonText}>Beranda</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.container}>
@@ -106,29 +105,40 @@ export default function QuizScreen() {
                     <Text style={styles.questionText}>{quizData[currentQuestion].question}</Text>
                 </View>
                 <FlatList
-                data={quizData[currentQuestion].options}
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                    style={[
-                        styles.optionButton,
-                        selectedOption === item && styles.optionSelected,
-                    ]}
-                    onPress={() => handleOptionSelect(item)}
-                    >
-                    <Text style={styles.optionText}>{item}</Text>
-                    </TouchableOpacity>
-                )}
-                keyExtractor={(_, index) => index.toString()}
-                contentContainerStyle={styles.marginWrapper}
+                    data={quizData[currentQuestion].options}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            style={[
+                                styles.optionButton,
+                                selectedOption === item
+                                    ? item === quizData[currentQuestion].correct
+                                        ? styles.optionCorrect
+                                        : styles.optionWrong
+                                    : item === quizData[currentQuestion].correct && selectedOption
+                                    ? styles.optionCorrect
+                                    : null,
+                            ]}
+                            onPress={() => handleOptionSelect(item)}
+                            disabled={selectedOption !== null}
+                        >
+                            <Text style={styles.optionText}>{item}</Text>
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(_, index) => index.toString()}
+                    contentContainerStyle={styles.marginWrapper}
                 />
-                <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-                <Text style={styles.nextButtonText}>{currentQuestion < quizData.length - 1 ? 'Next' : 'Submit'}</Text>
+                <TouchableOpacity
+                    style={styles.nextButton}
+                    onPress={handleNext}
+                    disabled={selectedOption === null}
+                >
+                    <Text style={styles.nextButtonText}>{currentQuestion < quizData.length - 1 ? 'Next' : 'Submit'}</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
     );
 }
-    
+
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20,
-        marginTop: 20
+        marginTop: 20,
     },
     optionButton: {
         padding: 15,
@@ -181,9 +191,13 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 10,
     },
-    optionSelected: {
+    optionCorrect: {
         backgroundColor: '#a3fde2',
         borderColor: '#68e6b1',
+    },
+    optionWrong: {
+        backgroundColor: '#fde2e2',
+        borderColor: '#e66868',
     },
     optionText: {
         fontSize: 16,
@@ -199,6 +213,12 @@ const styles = StyleSheet.create({
     nextButtonText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#fff',
+        color: '#000',
+    },
+    scoreText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginVertical: 20,
     },
 });
