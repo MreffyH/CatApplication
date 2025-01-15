@@ -233,16 +233,6 @@ export default function GLBPage() {
               />
             </View>
           </View>
-
-          {/* Footer Buttons */}
-          <View style={styles.footer}>
-            <TouchableOpacity style={styles.footerButton}>
-              <Text style={styles.footerButtonText}>Ayo Latihan</Text>
-            </TouchableOpacity>
-            <View style={styles.scoreContainer}>
-              <Text style={styles.scoreText}>Score: {score}/3</Text>
-            </View>
-          </View>
         </View>
       </ScrollView>
     </ImageBackground>

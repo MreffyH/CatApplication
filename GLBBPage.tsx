@@ -152,9 +152,6 @@ export default function GLBBPage() {
             <TouchableOpacity style={styles.headerButton}>
               <Text style={styles.headerButtonText}>Beranda</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
-              <Text style={styles.headerButtonText}>Login</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -260,16 +257,6 @@ export default function GLBBPage() {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
-          </View>
-
-          {/* Footer */}
-          <View style={styles.footer}>
-            <TouchableOpacity style={styles.footerButton}>
-              <Text style={styles.footerButtonText}>Ayo Latihan</Text>
-            </TouchableOpacity>
-            <View style={styles.scoreContainer}>
-              <Text style={styles.scoreText}>Score: {score}/3</Text>
             </View>
           </View>
         </View>
