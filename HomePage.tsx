@@ -33,6 +33,8 @@ export default function HomeScreen() {
       navigation.navigate('GLBPage');
     } else if (selectedPage === 'GLBB') {
       navigation.navigate('GLBBPage');
+    } else if (selectedPage === 'Quiz') {
+      navigation.navigate('QuizScreen');
     }
   };
 

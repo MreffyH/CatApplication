@@ -11,7 +11,6 @@ import {
   TextInput,
   Animated,
   Dimensions,
-  SafeAreaView,
   ImageBackground,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -24,14 +23,9 @@ const DESIGN_WIDTH = 425; // Your design reference width
 const TRACK_WIDTH = (290 / DESIGN_WIDTH) * SCREEN_WIDTH; // Scale 270px based on the screen width
 type GLBScreenNavigationProp = StackNavigationProp<RootStackParamList, 'GLBPage'>;
 
-type Props = {
-  navigation : GLBScreenNavigationProp
-}
 
 export default function GLBPage() {
   const navigation = useNavigation<GLBScreenNavigationProp>();
-  const [selectedPage, setSelectedPage] = useState<string | null>(null);
-
   const [velocity, setVelocity] = useState('0');
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);

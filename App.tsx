@@ -8,6 +8,7 @@ import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import { AuthContextProvider } from './context/authContext'; // Import the AuthContextProvider
 import LogoutPage from './LogoutPage';
+import QuizScreen from './Quiz';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   LoginPage: undefined;
   RegisterPage: undefined;
   LogoutPage: undefined;
+  QuizScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -31,6 +33,7 @@ const App: React.FC = () => {
           <Stack.Screen name="LoginPage" component={LoginPage} />
           <Stack.Screen name="RegisterPage" component={RegisterPage} />
           <Stack.Screen name="LogoutPage" component={LogoutPage} />
+          <Stack.Screen name="QuizScreen" component={QuizScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContextProvider>
