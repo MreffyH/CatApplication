@@ -11,22 +11,21 @@ import {
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from './context/authContext'; // Import context
+import { useAuth } from './context/authContext'; 
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { user } = useAuth(); // Gunakan user dan logout dari context
+  const { user } = useAuth(); 
   const [selectedPage, setSelectedPage] = useState<string | null>(null);
   const [profileText, setProfileText] = useState(user ? 'Profile' : 'Login');
 
   // Tampilkan konsole user yang sedang login
   useEffect(() => {
-    // Perbarui status Profile text setiap kali user berubah
     console.log("User updated in HomeScreen:", user);
     setProfileText(user ? 'Profile' : 'Login');
-  }, [user]); // Dependensi pada perubahan user
+  }, [user]); 
 
   const handleNavigate = () => {
     if (selectedPage === 'GLB') {
