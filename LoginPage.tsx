@@ -20,23 +20,35 @@ type Props = {
     navigation: LoginScreenNavigationProp;
 };
 
-const LoginPage: React.FC<Props> = ({ navigation }) => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const { login } = useAuth();
+    const LoginPage: React.FC<Props> = ({ navigation }) => {
+        const [email, setEmail] = useState<string>('');
+        const [password, setPassword] = useState<string>('');
+        const { login } = useAuth();
 
-    const handleLogin = () => {
-        console.log('Login button pressed');
-        let response = login(email, password); // Pass only email and password
-        console.log('got result: ', response);
-        if (!email || !password) {
-            Alert.alert('Error', 'Email dan Password harus diisi!');
-            return;
-        }
-        // Tambahkan logika autentikasi di sini
-        Alert.alert('Sukses', 'Login berhasil');
-        navigation.navigate('Home'); // Navigasi ke halaman Home
-    };
+        const handleLogin = async () => {
+            console.log('Login button pressed');
+            
+            if (!email || !password) {
+                Alert.alert('Error', 'Email dan Password harus diisi!');
+                return;
+            }
+        
+            try {
+                const response = await login(email, password); // Fungsi login sekarang harus asynchronous
+                console.log('Login result:', response);
+        
+                if (response.success) { // Asumsikan respons memiliki properti `success`
+                    Alert.alert('Sukses', 'Login berhasil');
+                    navigation.navigate('Home'); // Navigasi ke halaman Home hanya jika login berhasil
+                } else {
+                    Alert.alert('Error', response.error || 'Email atau Password salah');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                Alert.alert('Error', 'Terjadi kesalahan saat login. Silakan coba lagi.');
+            }
+        };
+    
 
     return (
         <ScrollView contentContainerStyle={styles.container}>

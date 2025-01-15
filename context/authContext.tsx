@@ -40,26 +40,20 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     });
 
     return unsub; // Menghapus listener saat komponen unmount
-  }, []);
+    }, []);
 
 // Perbaikan pada fungsi login, logout, dan register:
     const login = async (email: string, password: string): Promise<{ success: boolean; user?: User; error?: string }> => {
         try {
-            const response = await signInWithEmailAndPassword(auth, email, password);
-            if (response?.user) {
-                setUser(response.user); // Mengupdate state user
-                setIsAuthenticated(true); // Mengupdate status autentikasi
-                return { success: true, user: response.user }; // Pastikan mengembalikan objek yang sesuai
-            }
-            // Jika tidak ada user, kembalikan status gagal
-            return { success: false, error: 'Login failed, no user found.' };
+        const response = await signInWithEmailAndPassword(auth, email, password);
+        console.log('[Login Success] User:', response.user);
+        setUser(response.user);
+        setIsAuthenticated(true);
+        return { success: true, user: response.user };
         } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error('Login Error:', error.message);
-                return { success: false, error: error.message };
-            }
-            console.error('Unknown Login Error:', error);
-            return { success: false, error: 'An unknown error occurred' };
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        console.error('[Login Error]:', errorMessage);
+        return { success: false, error: errorMessage };
         }
     };
     
