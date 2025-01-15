@@ -50,7 +50,9 @@ export default function HomeScreen() {
       <View style={styles.navbar}>
         <View style={styles.logoContainer}>
           <Image source={require('./assets/1-logo.png')} style={styles.logo} />
-          <Text style={styles.logoText}>"Make Physics More Fun"</Text>
+          <Text style={styles.logoText}>
+            "Make Physics More Fun"
+          </Text>
         </View>
         <TouchableOpacity
           style={styles.menuButton}
@@ -103,6 +105,20 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* Quiz Section */}
+        <View style={styles.cardsCenter}>
+          <TouchableOpacity
+            style={[
+              styles.card,
+              selectedPage === 'Quiz' ? styles.cardSelected : null,
+            ]}
+            onPress={() => setSelectedPage('Quiz')}
+          >
+            <Image source={require('./assets/10-quiz.png')} style={styles.cardImage} />
+            <Text style={styles.cardText}>Quiz</Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Button */}
         <View>
           <TouchableOpacity
@@ -118,7 +134,6 @@ export default function HomeScreen() {
         </View>
       </ImageBackground>
     </ScrollView>
-    
   );
 }
 
@@ -178,6 +193,11 @@ const styles = StyleSheet.create({
   cards: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginVertical: 20,
+  },
+  cardsCenter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginVertical: 20,
   },
   card: {
