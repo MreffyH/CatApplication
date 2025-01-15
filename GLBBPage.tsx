@@ -1,3 +1,4 @@
+import { RootStackParamList } from './App';
 import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
@@ -11,15 +12,19 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-
 import { Canvas, Circle, Line, Group } from '@shopify/react-native-skia';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CANVAS_HEIGHT = 300;
 const GRAVITY = 9.81; // m/s²
 const SCALE_FACTOR = 10; // Pixels per meter
+type GLBBScreenNavigationProp = StackNavigationProp<RootStackParamList, 'GLBBPage'>;
+
 
 export default function GLBBPage() {
+  const navigation = useNavigation<GLBBScreenNavigationProp>();
   // GLBB Calculator states
   const [acceleration, setAcceleration] = useState('');
   const [initialVelocity, setInitialVelocity] = useState('');
@@ -149,7 +154,8 @@ export default function GLBBPage() {
             <Text style={styles.title}>"Make Physics More Fun"</Text>
           </View>
           <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity style={styles.headerButton}
+            onPress={() => navigation.navigate('Home')}>
               <Text style={styles.headerButtonText}>Beranda</Text>
             </TouchableOpacity>
           </View>
