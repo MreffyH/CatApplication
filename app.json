@@ -7,21 +7,27 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      // "image": "./assets/splash-icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#47A17B"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        // "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Icon_Foreground.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.afnanf.PhylabMobile"
     },
     "web": {
-      // "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ab334644-3b0f-47e7-8fd9-64247a59ea60"
+      }
     }
   }
 }
