@@ -23,23 +23,23 @@ interface AuthContextProviderProps {
 
 // Membuat provider untuk AuthContext
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [user, setUser] = useState<User | null>(null); // State untuk user yang sedang login
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined); // Status autentikasi
+  const [user, setUser] = useState<User | null>(null); 
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined); 
 
   // Menggunakan onAuthStateChanged untuk mendeteksi perubahan status autentikasi
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
         console.log('User updated in onAuthStateChanged:', currentUser);  
         if (currentUser) {
-            setUser(currentUser); // Mengatur user jika ada
-            setIsAuthenticated(true); // Menandai sebagai sudah login
+            setUser(currentUser); 
+            setIsAuthenticated(true); 
         } else {
-            setUser(null); // Menghapus user jika tidak ada
-            setIsAuthenticated(false); // Menandai sebagai belum login
+            setUser(null); 
+            setIsAuthenticated(false); 
         }
     });
 
-    return unsub; // Menghapus listener saat komponen unmount
+    return unsub; 
     }, []);
 
 // Perbaikan pada fungsi login, logout, dan register:
@@ -60,8 +60,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const logout = async (): Promise<void> => {
         try {
             await signOut(auth);
-            setUser(null); // Menghapus state user
-            setIsAuthenticated(false); // Menandai status autentikasi sebagai logout
+            setUser(null); 
+            setIsAuthenticated(false); 
         } catch (error: unknown) {
             if (error instanceof Error) {
                 console.error('Logout Error:', error.message);
@@ -84,7 +84,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
                 email,
                 userId: response.user.uid,
                 });
-                return { success: true, user: response.user }; // Pastikan mengembalikan objek yang sesuai
+                return { success: true, user: response.user }; 
             } else {
                 return { success: false, error: 'User creation failed.' };
             }
@@ -98,10 +98,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
             }
         }
     };
-  
-    
 
-    // Mengembalikan provider dengan nilai context
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, login, logout, register }}>
         {children}

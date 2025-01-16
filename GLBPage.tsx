@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { RootStackParamList } from './App';
 import { Easing } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react';
@@ -17,10 +18,10 @@ import { WebView } from 'react-native-webview';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-const TRACK_LENGTH = 100; // Track length in meters
-const SCREEN_WIDTH = Dimensions.get('window').width; // Actual screen width in pixels
-const DESIGN_WIDTH = 425; // Your design reference width
-const TRACK_WIDTH = (290 / DESIGN_WIDTH) * SCREEN_WIDTH; // Scale 270px based on the screen width
+const TRACK_LENGTH = 100; 
+const SCREEN_WIDTH = Dimensions.get('window').width; 
+const DESIGN_WIDTH = 425; 
+const TRACK_WIDTH = (290 / DESIGN_WIDTH) * SCREEN_WIDTH; 
 type GLBScreenNavigationProp = StackNavigationProp<RootStackParamList, 'GLBPage'>;
 
 
@@ -51,13 +52,13 @@ export default function GLBPage() {
     resetSimulation();
     setIsRunning(true);
   
-    const v = parseFloat(velocity); // Velocity in m/s
-    const totalTime = TRACK_LENGTH / v; // Total time in seconds
+    const v = parseFloat(velocity); 
+    const totalTime = TRACK_LENGTH / v; 
   
     // Start the timer
     const startTime = Date.now();
     timerRef.current = setInterval(() => {
-      const currentTime = (Date.now() - startTime) / 1000; // Elapsed time in seconds
+      const currentTime = (Date.now() - startTime) / 1000; 
       setTime(currentTime);
   
       if (currentTime >= totalTime) {
@@ -66,16 +67,16 @@ export default function GLBPage() {
           timerRef.current = null;
         }
         setIsRunning(false);
-        setScore((prev) => Math.min(prev + 1, 3)); // Increment score
+        setScore((prev) => Math.min(prev + 1, 3));
       }
     }, 10) as unknown as number;
   
     // Start the animation
     Animated.timing(dotPosition, {
-      toValue: 1, // Normalized range (0 to 1)
-      duration: totalTime * 1000, // Total time in milliseconds
+      toValue: 1, 
+      duration: totalTime * 1000, 
       useNativeDriver: true,
-      easing: Easing.linear, // Linear motion
+      easing: Easing.linear,
     }).start();
   };
 
@@ -92,7 +93,9 @@ export default function GLBPage() {
       source={require('./assets/2-physics.jpg')} 
       style={styles.container}
     >
-      <ScrollView>
+      <ScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={{ flexGrow: 1 }}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
@@ -164,8 +167,8 @@ export default function GLBPage() {
                       transform: [
                         {
                           translateX: dotPosition.interpolate({
-                            inputRange: [0, 1], // Normalized range
-                            outputRange: [0, TRACK_WIDTH], // Map to pixel range
+                            inputRange: [0, 1], 
+                            outputRange: [0, TRACK_WIDTH], 
                           }),
                         },
                       ],
@@ -226,11 +229,21 @@ export default function GLBPage() {
           <View style={styles.card}>
             <Text style={styles.subtitle}>Mau lebih ngerti? Coba tonton video ini yuk!</Text>
             <View style={styles.videoContainer}>
-              <WebView
-                style={styles.video}
-                source={{ uri: 'https://www.youtube.com/embed/3YCRAse9irs?si=_JSBfMwLOuN2KuHI' }}
-                allowsFullscreenVideo
-              />
+              {
+                Platform.OS === 'web' ? (
+                  <iframe
+                    style={{ width: '100%', height: 250, borderRadius: 10 }}
+                    src="https://www.youtube.com/embed/3YCRAse9irs?si=_JSBfMwLOuN2KuHI"
+                    allow="fullscreen"
+                  />
+                ) : (
+                  <WebView
+                    style={styles.video}
+                    source={{ uri: 'https://www.youtube.com/embed/3YCRAse9irs?si=_JSBfMwLOuN2KuHI' }}
+                    allowsFullscreenVideo
+                  />
+                )
+              }
             </View>
           </View>
         </View>
@@ -462,11 +475,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   videoContainer: {
-    height: 250, // Adjust height based on your design
+    height: 250, 
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 10,
-    overflow: 'hidden', // To ensure rounded corners
+    overflow: 'hidden', 
   },
   video: {
     flex: 1,

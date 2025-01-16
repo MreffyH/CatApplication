@@ -22,7 +22,12 @@
       "package": "com.afnanf.PhylabMobile"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+   "build": {
+    "minify": false
+  }
+      
     },
     "extra": {
       "eas": {

@@ -59,9 +59,9 @@ export default function HomeScreen() {
         </View>
         <TouchableOpacity
           style={styles.menuButton}
-          onPress={handleProfilePress} // Fungsi berubah sesuai status login
+          onPress={handleProfilePress} 
         >
-          <Text style={styles.menuText}>{profileText}</Text> {/* Ubah label sesuai status login */}
+          <Text style={styles.menuText}>{profileText}</Text> 
         </TouchableOpacity>
       </View>
 

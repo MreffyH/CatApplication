@@ -34,12 +34,12 @@ type Props = {
             }
         
             try {
-                const response = await login(email, password); // Fungsi login sekarang harus asynchronous
+                const response = await login(email, password); 
                 console.log('Login result:', response);
         
-                if (response.success) { // Asumsikan respons memiliki properti `success`
+                if (response.success) { 
                     Alert.alert('Sukses', 'Login berhasil');
-                    navigation.navigate('Home'); // Navigasi ke halaman Home hanya jika login berhasil
+                    navigation.navigate('Home'); 
                 } else {
                     Alert.alert('Error', response.error || 'Email atau Password salah');
                 }
