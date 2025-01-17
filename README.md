@@ -55,7 +55,7 @@ Mobile Phylab adalah aplikasi versi mobile dari website Phylab yang dirancang un
   - Data akun baru disimpan ke Firebase Authentication.
 
 *Contoh data pengguna di Firebase Authentication:*  
-![Contoh Data Firebase Authentication](link_gambar_firebase_authentication)
+![Contoh Data Firebase Authentication](/docs/BuktiAutentikasiFirebaseMobile.png)
 
 ### 2. **Data Kuis dan Permainan**
 - Data hasil kuis dan permainan interaktif disimpan dalam Firebase Realtime Database.
@@ -64,7 +64,7 @@ Mobile Phylab adalah aplikasi versi mobile dari website Phylab yang dirancang un
   - Skor terbaru akan menggantikan skor sebelumnya untuk memastikan data tetap terkini.
 
 *Contoh data hasil kuis di Firebase Database:*  
-![Contoh Data Firebase Database](link_gambar_firebase_database)
+![Contoh Data Firebase Database](/docs/BuktiDatabaseFirebaseMobile.png)
 
 ---
 
