@@ -70,13 +70,10 @@ Mobile Phylab adalah aplikasi versi mobile dari website Phylab yang dirancang un
 
 ## Cara Mendownload Aplikasi
 
-1. Unduh dan instal aplikasi melalui proses build menggunakan **Expo Application Services (EAS)**.
-2. Ikuti langkah-langkah berikut:
-   - Clone repository dari project ini.
-   - Jalankan perintah build melalui EAS:
-     ```bash
-     eas build --platform android
+1. Buka link google drive berikut :
+    ```bash
+     https://drive.google.com/file/d/1JvNfgq7uclaVGMP2bSzzAz7TUf6Hhqzo/view?usp=sharing
      ```
-   - Setelah build selesai, unduh file APK dan instal di perangkat Anda.
+2. Unduh aplikasi dan pasang pada perangkat anda
 
 ---
